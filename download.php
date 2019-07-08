@@ -1,0 +1,27 @@
+<?php
+
+session_start();                        //Grab the session from before again
+
+if(!isset($_SESSION["file"]) || !isset($_SESSION["name"]) || empty($_SESSION["file"]) || empty($_SESSION["name"])) {    //If 'file' or 'name' are not available in the current session...
+    header("Location: index.html");                                                                                     //Go back to the starting page
+}
+
+header('Content-Description: File Transfer');                                       //I still do not fully understand headers, but these allow the file to be downloadable
+header('Content-Type: application/zip');                                            //*
+header('Content-Disposition: attachment; filename="' . $_SESSION["name"] . '"');    //*
+header('Content-Transfer-Encoding: binary');                                        //*
+header('Expires: 0');                                                               //*
+header('Cache-Control: must-revalidate');                                           //*
+header('Pragma: public');                                                           //*
+header('Content-Length: ' . filesize($_SESSION["file"]));                           //*
+
+ignore_user_abort(true);                //Ensure the script keeps running even if the user leaves the page. Failsafe to remove unnecessary file.
+
+readfile($_SESSION["file"]);            //Download the file
+
+unlink($_SESSION["file"]);              //Remove the file afterwards
+
+unset($_SESSION["file"]);               //Reset the session
+unset($_SESSION["name"]);               //*
+
+?>
