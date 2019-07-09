@@ -9,6 +9,8 @@ If the website is not reachable, then wait a few minutes and try again.
 
 
 # Credits
+Original Loot table randomizer created by SethBling (https://www.youtube.com/channel/UC8aG3LDTDwNR1UQhSn9uVrw)
+
 Using a modified version of Vincent's PclZip (http://phpconcept.net/pclzip/)
 
 Using South-Paw's Minecraft webfont (https://github.com/South-Paw/Minecraft-Webfont-and-Colors)
