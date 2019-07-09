@@ -3,7 +3,7 @@
 session_start();                        //Grab the session from before again
 
 if(!isset($_SESSION["file"]) || !isset($_SESSION["name"]) || empty($_SESSION["file"]) || empty($_SESSION["name"])) {    //If 'file' or 'name' are not available in the current session...
-    header("Location: index.html");                                                                                     //Go back to the starting page
+    header("Location: index.php");                                                                                     //Go back to the starting page
 }
 
 header('Content-Description: File Transfer');                                       //I still do not fully understand headers, but these allow the file to be downloadable

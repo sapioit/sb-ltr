@@ -6,7 +6,11 @@
 // ## Created by: SethBling             ##
 // ## Ported to PHP by: Fasguy          ##
 // #######################################
-// ## Version 1.0                       ##
+// ## Version 1.0.1                     ##
+// #######################################
+// ## External Sources:
+// ## PclZip created by Vincent (http://phpconcept.net/pclzip/)
+// ## Minecraft Webfont by South-Paw (https://github.com/South-Paw/Minecraft-Webfont-and-Colors)
 // #######################################
 
 session_start();                        //Start a session to store download parameters
@@ -21,11 +25,20 @@ $datapack_name;                         //Variable to store the name of the data
 $datapack_desc;                         //Variable to store the description of the datapack
 $datapack_filename;                     //Variable to store the filename of the datapack
 
-echo '<link rel="stylesheet" href="style.css">';
-echo '<div id="content">';
-echo '<h1 id="title">Generating datapack...</h1>';
-echo '<h3 id="progress">Please wait...</h3>';
-echo '</div>';
+echo '
+<html>
+<head>
+<title>SethBling\'s Random Loot-Table Generator.</title>
+</head>
+<body>
+<link rel="stylesheet" href="style/style.css">
+<link rel="stylesheet" type="text/css" media="screen" href="style/minecraft-webfont.css" />
+<div id="content">
+<h1 id="title">Generating datapack...</h1>
+<h3 id="progress">Please wait...</h3>
+</div>
+</body>
+</html>';
 
 Generate();
 
@@ -108,6 +121,7 @@ function Generate() {
 }
 
 function Progress($percentage, $reportText) {
+    echo '<noscript>Progress will only be shown with JavaScript enabled.</noscript>';
     echo '<script>parent.document.getElementById("progress").innerHTML="' . number_format((float)$percentage, 2, '.', '') . "% " . $reportText . '"</script>';
     ob_flush();                         //Refresh user interface
     flush();                            //*
