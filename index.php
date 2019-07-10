@@ -23,7 +23,7 @@
             </p>
         </div>
         <div id="version">
-            Version 1.0.1
+            Version 1.0.2
         </div>
     </body>
 </html>

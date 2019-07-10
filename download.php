@@ -1,5 +1,7 @@
 <?php
 
+require_once("lib/functions.php");
+
 session_start();                        //Grab the session from before again
 
 if(!isset($_SESSION["file"]) || !isset($_SESSION["name"]) || empty($_SESSION["file"]) || empty($_SESSION["name"])) {    //If 'file' or 'name' are not available in the current session...
@@ -19,9 +21,6 @@ ignore_user_abort(true);                //Ensure the script keeps running even i
 
 readfile($_SESSION["file"]);            //Download the file
 
-unlink($_SESSION["file"]);              //Remove the file afterwards
-
-unset($_SESSION["file"]);               //Reset the session
-unset($_SESSION["name"]);               //*
+Kill();
 
 ?>
