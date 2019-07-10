@@ -6,7 +6,7 @@
 // ## Created by: SethBling             ##
 // ## Ported to PHP by: Fasguy          ##
 // #######################################
-// ## Version 1.0.2                     ##
+// ## Version 1.0.3                     ##
 // #######################################
 // ## External Sources:
 // ## PclZip created by Vincent (http://phpconcept.net/pclzip/)
@@ -18,33 +18,47 @@ session_start();                        //Start a session to store download para
 require_once("lib/pclzip.lib.php");     //Import PCLZIP (ZipArchive produces unusable zip files (Deflate64 doesn't seem to work correctly in Minecraft))
 require_once("lib/functions.php");      //External function file
 
-$seed;                                  //Variable to store the seed
-
-$tempFile;                              //File path of the generated zip file
-
-$datapack_name;                         //Variable to store the name of the datapack
-$datapack_desc;                         //Variable to store the description of the datapack
-$datapack_filename;                     //Variable to store the filename of the datapack
+$javascriptActive = false;              //Variable to check JavaScript, to get rid of unnecessary Progress reporting
 
 echo '
 <html>
 <head>
 <title>SethBling\'s Random Loot-Table Generator.</title>
+<script>
+document.cookie = "isJavascriptEnabled=1";
+</script>
 </head>
 <body>
-<link rel="stylesheet" href="style/style.css">
+<link rel="shortcut icon" href="style/favicon.png" type="image/png" />
+<link rel="icon" href="style/favicon.png" type="image/png" />
+<link rel="stylesheet" href="style/style.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="style/minecraft-webfont.css" />
 <div id="content">
 <h1 id="title">Generating datapack...</h1>
 <h3 id="progress">Please wait...</h3>
+<noscript><h4>Progress can only be shown with JavaScript enabled.</h4></noscript>
 </div>
 </body>
 </html>';
 
+if (isset($_COOKIE['isJavascriptEnabled'])) {
+    $javascriptActive = $_COOKIE['isJavascriptEnabled'];
+    unset($_COOKIE['isJavascriptEnabled']);
+    setcookie('isJavascriptEnabled', null, 1); 
+}
+
 Generate();
 
 function Generate() {
-    ini_set('max_execution_time', 0); //Pretty much only used for debugging at home
+    $seed;                              //Variable to store the seed
+    
+    $tempFile;                          //File path of the generated zip file
+    
+    $datapack_name;                     //Variable to store the name of the datapack
+    $datapack_desc;                     //Variable to store the description of the datapack
+    $datapack_filename;                 //Variable to store the filename of the datapack
+    
+    ini_set('max_execution_time', 0);   //Pretty much only used for debugging at home
 
     ignore_user_abort(true);            //Ensure the script keeps running even if the user leaves the page. Failsafe to remove unnecessary file.
 
@@ -107,7 +121,7 @@ function Generate() {
         Progress(20 + (80 / $fileMax) * $fileCounter, "Adding files to archive...");
         $contents = file_get_contents($file);                                                                                                       //Grab contents of switching file
         $list = $archive->add(array(array(PCLZIP_ATT_FILE_NAME => "data/minecraft/" . $file_dict[$file], PCLZIP_ATT_FILE_CONTENT => $contents)));   //Create real file with switched path file's contents
-        if ($list == 0) die("ERROR : '".$archive->errorInfo(true)."'");                                                                             //If error occured, display it
+        if ($list == 0) die("ERROR : '" . $archive->errorInfo(true) . "'");                                                                         //If error occured, display it
         $fileCounter++;                                                                                                                             //Add 1 to the current index
         if (connection_aborted()) {     //If user disconnected...
             Kill();                     //Kill the file and session
@@ -123,8 +137,12 @@ function Generate() {
 }
 
 function Progress($percentage, $reportText) {
-    echo '<noscript>Progress will only be shown with JavaScript enabled.</noscript>';
-    echo '<script>parent.document.getElementById("progress").innerHTML="' . number_format((float)$percentage, 2, '.', '') . "% " . $reportText . '"</script>';
+    global $javascriptActive;
+    if($javascriptActive) {
+        $percentage = number_format((float)$percentage, 2, '.', '');
+        echo "<script id=\"updater\">parent.document.getElementById(\"progress\").innerHTML=\"$percentage% $reportText\";
+        parent.document.getElementById(\"updater\").remove();</script>";   //Update progress report
+    }
     ob_flush();                         //Refresh user interface
     flush();                            //*
 }
