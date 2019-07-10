@@ -2,7 +2,7 @@
 A PHP port of SethBling's Loot table randomizer
 
 
-Running version can be found here: https://fasguy.ga/sb_ltr_101/
+Running version can be found here: https://fasguy.ga/sb_ltr_102/
 
 If the website is not reachable, then wait a few minutes and try again.
 
