@@ -19,5 +19,5 @@ Using South-Paw's Minecraft webfont (https://github.com/South-Paw/Minecraft-Webf
 Priority | Task
 ------------ | -------------
 Low | <ul><li>- [ ] Add safe-randomization mode (Prevents certain items from being unobtainable)</li></ul>
-High | <ul><li>- [ ] Randomization selection (Select which types of drops should be randomized)</li></ul>
+High | <ul><li>- [x] Randomization selection (Select which types of drops should be randomized)</li></ul>
 High | <ul><li>- [ ] Resourcepack randomization (Pretty much what you think it is)</li></ul>
