@@ -13,29 +13,6 @@
                 <div id="inputs">
                     <input type="number" autocomplete="off" name="seed" placeholder="(optional) Enter seed here" />
                     <input type="submit" value="Generate"/>
-                    <br>
-                    <div id="options">
-                        <label class="toggle">
-                            <input type="checkbox" name="randomLootTable[]" value="blocks" checked/>
-                            Randomize Blocks:
-                            <span class="state"></span>
-                        </label>
-                        <label class="toggle">
-                            <input type="checkbox" name="randomLootTable[]" value="chests" checked/>
-                            Randomize Chests:
-                            <span class="state"></span>
-                        </label>
-                        <label class="toggle">
-                            <input type="checkbox" name="randomLootTable[]" value="entities" checked/>
-                            Randomize Entities:
-                            <span class="state"></span>
-                        </label>
-                        <label class="toggle">
-                            <input type="checkbox" name="randomLootTable[]" value="gameplay" checked/>
-                            Randomize Gameplay:
-                            <span class="state"></span>
-                        </label>
-                    </div>
                 </div>
             </form>
             <p id="text">
@@ -49,7 +26,7 @@
         </div>
         <div id="footer">
             <div id="version">
-                <a href="https://github.com/Fasguy/sb-ltr" target="_blank" rel="noreferrer">Version 1.1</a>
+                <a href="https://github.com/Fasguy/sb-ltr" target="_blank" rel="noreferrer">Version 1.0.3</a>
             </div>
             <div id="additional">
                 <a href="https://www.youtube.com/user/sethbling" target="_blank" rel="noreferrer">SethBling's YouTube Channel</a>
