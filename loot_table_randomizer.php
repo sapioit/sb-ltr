@@ -6,7 +6,7 @@
 // ## Created by: SethBling             ##
 // ## Ported to PHP by: Fasguy          ##
 // #######################################
-// ## Version 1.0.3                     ##
+// ## Version 1.1                       ##
 // #######################################
 // ## External Sources:
 // ## PclZip created by Vincent (http://phpconcept.net/pclzip/)
@@ -18,15 +18,10 @@ session_start();                        //Start a session to store download para
 require_once("lib/pclzip.lib.php");     //Import PCLZIP (ZipArchive produces unusable zip files (Deflate64 doesn't seem to work correctly in Minecraft))
 require_once("lib/functions.php");      //External function file
 
-$javascriptActive = false;              //Variable to check JavaScript, to get rid of unnecessary Progress reporting
-
 echo '
 <html>
 <head>
 <title>SethBling\'s Random Loot-Table Generator.</title>
-<script>
-document.cookie = "isJavascriptEnabled=1";
-</script>
 </head>
 <body>
 <link rel="shortcut icon" href="style/favicon.png" type="image/png" />
@@ -41,12 +36,6 @@ document.cookie = "isJavascriptEnabled=1";
 </body>
 </html>';
 
-if (isset($_COOKIE['isJavascriptEnabled'])) {
-    $javascriptActive = $_COOKIE['isJavascriptEnabled'];
-    unset($_COOKIE['isJavascriptEnabled']);
-    setcookie('isJavascriptEnabled', null, 1); 
-}
-
 Generate();
 
 function Generate() {
@@ -58,9 +47,11 @@ function Generate() {
     $datapack_desc;                     //Variable to store the description of the datapack
     $datapack_filename;                 //Variable to store the filename of the datapack
     
+    $randomLootTable = isset($_POST['randomLootTable']) ? $_POST['randomLootTable'] : array();  //If "randomLootTable" is set, then it assigns the selected objects to $randomLootTable
+    
     ini_set('max_execution_time', 0);   //Pretty much only used for debugging at home
 
-    ignore_user_abort(true);            //Ensure the script keeps running even if the user leaves the page. Failsafe to remove unnecessary file.
+    ignore_user_abort(true);            //Ensure the script keeps running even if the user leaves the page. Failsafe to remove unnecessary files.
 
     //tempnam should be used here, but apparently isn't supported by my webhoster :/
     while (true) {
@@ -109,20 +100,22 @@ function Generate() {
     Progress(20, "Creating archive...");
     $archive = new PclZip($tempFile);   //Initialize a new zip archive
     $list = $archive->create(array(array(PCLZIP_ATT_FILE_NAME => "pack.mcmeta", PCLZIP_ATT_FILE_CONTENT => json_encode(array("pack" => array("pack_format" => 1, "description" => $datapack_desc)), JSON_PRETTY_PRINT))));              //Add 'pack.mcmeta' to archive
-    if ($list == 0) die("ERROR : '" . $archive->errorInfo(true) . "'");                                                                                                                                                                     //If error occured, display it
+    if ($list == 0) die("ERROR: '" . $archive->errorInfo(true) . "'");                                                                                                                                                                  //If error occured, display it
     $list = $archive->add(array(array(PCLZIP_ATT_FILE_NAME => "data/minecraft/tags/functions/load.json", PCLZIP_ATT_FILE_CONTENT => json_encode(array("values" => array($datapack_name . ":reset"))))));                                //Add 'load.json' to archive
-    if ($list == 0) die("ERROR : '" . $archive->errorInfo(true) . "'");                                                                                                                                                                     //If error occured, display it
+    if ($list == 0) die("ERROR: '" . $archive->errorInfo(true) . "'");                                                                                                                                                                  //If error occured, display it
     $list = $archive->add(array(array(PCLZIP_ATT_FILE_NAME => "data/" . $datapack_name . "/functions/reset.mcfunction", PCLZIP_ATT_FILE_CONTENT => 'tellraw @a ["",{"text":"Loot table randomizer by SethBling","color":"green"}]')));  //Add 'reset.mcfunction' to archive
-    if ($list == 0) die("ERROR : '" . $archive->errorInfo(true) . "'");                                                                                                                                                                     //If error occured, display it
+    if ($list == 0) die("ERROR: '" . $archive->errorInfo(true) . "'");                                                                                                                                                                  //If error occured, display it
 
     $fileCounter = 0;                   //Variable to store current file index (Used to show progress, only visible on pretty slow servers)
     $fileMax = count($file_dict);       //Variable to store the amount of available files
     foreach($file_dict as $file) {      //For each file in file_dict
         Progress(20 + (80 / $fileMax) * $fileCounter, "Adding files to archive...");
-        $contents = file_get_contents($file);                                                                                                       //Grab contents of switching file
-        $list = $archive->add(array(array(PCLZIP_ATT_FILE_NAME => "data/minecraft/" . $file_dict[$file], PCLZIP_ATT_FILE_CONTENT => $contents)));   //Create real file with switched path file's contents
-        if ($list == 0) die("ERROR : '" . $archive->errorInfo(true) . "'");                                                                         //If error occured, display it
-        $fileCounter++;                                                                                                                             //Add 1 to the current index
+        if(in_array(explode(DIRECTORY_SEPARATOR, $file_dict[$file])[1], $randomLootTable)) {                                                            //If the current loot table type should be randomized
+            $contents = file_get_contents($file);                                                                                                       //Grab contents of switching file
+            $list = $archive->add(array(array(PCLZIP_ATT_FILE_NAME => "data/minecraft/" . $file_dict[$file], PCLZIP_ATT_FILE_CONTENT => $contents)));   //Create real file with switched path file's contents
+            if ($list == 0) die("ERROR: '" . $archive->errorInfo(true) . "'");                                                                          //If error occured, display it
+        }
+        $fileCounter++;                 //Add 1 to the current index
         if (connection_aborted()) {     //If user disconnected...
             Kill();                     //Kill the file and session
             exit();                     //Stop the PHP script
@@ -133,18 +126,15 @@ function Generate() {
 
     echo '<meta http-equiv="refresh" content="0;url=download.php">';    //Switch to 'download.php' (Yes, this is an ugly way to do it)
 
-    if (connection_aborted()) Kill();   //Another failsafe variable to make sure no orphaned files and sessions are being left behind
+    if (connection_aborted()) Kill();   //Failsafe to make sure no orphaned files and sessions are being left behind
 }
 
 function Progress($percentage, $reportText) {
-    global $javascriptActive;
-    if($javascriptActive) {
-        $percentage = number_format((float)$percentage, 2, '.', '');
-        echo "<script id=\"updater\">parent.document.getElementById(\"progress\").innerHTML=\"$percentage% $reportText\";
-        parent.document.getElementById(\"updater\").remove();</script>";   //Update progress report
-    }
-    ob_flush();                         //Refresh user interface
-    flush();                            //*
+    $percentage = number_format((float)$percentage, 2, '.', '');
+    echo "<script id=\"updater\">parent.document.getElementById(\"progress\").innerHTML=\"$percentage% $reportText\";
+    parent.document.getElementById(\"updater\").remove();</script>";    //Update progress report
+    ob_flush();                                                         //Refresh user interface
+    flush();                                                            //*
 }
 
 ?>
