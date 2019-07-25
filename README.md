@@ -15,7 +15,7 @@ Using a modified version of Vincent's PclZip (http://phpconcept.net/pclzip/)
 
 Using South-Paw's Minecraft webfont (https://github.com/South-Paw/Minecraft-Webfont-and-Colors)
 
-hungryhyena78 for feedback on usage
+hungryhyena78 for feedback on usage (https://www.twitch.tv/hungryhyena78)
 
 # Todo
 Priority | Task | Done in Version
