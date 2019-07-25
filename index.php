@@ -39,17 +39,23 @@
                 </div>
             </form>
             <p id="text">
+                How to use:
+                1. Let your loot table generate.
+                2. Go into <a href="https://help.mojang.com/customer/portal/articles/1480874">your '.minecraft' directory</a>.
+                3. Go into 'saves' and then into the world's folder, where you want the drops to be randomized.
+                4. Go into 'datapacks' and place the generated zip file in this folder.
+                5. Load the world in Minecraft and go nuts!<br>
                 Note: Seeds from the python version will not produce the same result in this version.
                 Even though Python and PHP supposedly use the same randomization algorithm (Mersenne Twister), they produce different results.
                 If someone has a solution for this, then please <a href="https://fasguy.ga/discord" target="_blank" rel="noreferrer">contact me on discord</a>.
             </p>
             <p>
-                DISCLAIMER: I (Fasguy) am not affiliated with SethBling or Mojang in any way. I just ported this to PHP so you don't have to install python.
+                Minecraft © Mojang 2009 - <?php echo date("Y"); ?>. I am not affiliated with Mojang or SethBling in any way.
             </p>
         </div>
         <div id="footer">
             <div id="version">
-                <a href="https://github.com/Fasguy/sb-ltr" target="_blank" rel="noreferrer">Version 1.1</a>
+                <a href="https://github.com/Fasguy/sb-ltr" target="_blank" rel="noreferrer">Version 1.1.1</a>
             </div>
             <div id="additional">
                 <a href="https://www.youtube.com/user/sethbling" target="_blank" rel="noreferrer">SethBling's YouTube Channel</a>

@@ -1,12 +1,12 @@
 <?php
 
 // #######################################
-// ## SethBling's Loot Table Randomizer ##
+// ## Minecraft Randomizer ##
 // #######################################
 // ## Created by: SethBling             ##
 // ## Ported to PHP by: Fasguy          ##
 // #######################################
-// ## Version 1.1                       ##
+// ## Version 1.2                       ##
 // #######################################
 // ## External Sources:
 // ## PclZip created by Vincent (http://phpconcept.net/pclzip/)
@@ -32,6 +32,14 @@ echo '
 <h1 id="title">Generating datapack...</h1>
 <h3 id="progress">Please wait...</h3>
 <noscript><h4>Progress can only be shown with JavaScript enabled.</h4></noscript>
+<p id="text">
+How to use:
+1. Let your loot table generate.
+2. Go into <a href="https://help.mojang.com/customer/portal/articles/1480874">your \'.minecraft\' directory</a>.
+3. Go into \'saves\' and then into the world\'s folder, where you want the drops to be randomized.
+4. Go into \'datapacks\' and place the generated zip file in this folder.
+5. Load the world in Minecraft and go nuts!
+</p>
 </div>
 </body>
 </html>';

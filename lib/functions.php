@@ -20,4 +20,45 @@ function Kill() {
     session_destroy();                  //Destroy session
 }
 
+$configTable = array(
+    'A', 'C', 'D', 'E', 'F', 'G', 'I', 'M', 'N', 'O', 'R', 'S', 'T', 'U', 'Y', 'Z'
+    //Fasguy Minecraft Randomized
+);
+
+function encodeConfig($bits) {
+    global $configTable;
+
+    $configCode = "";
+    while(strlen($bits) % 4 !== 0) {
+        $bits .= '1';
+    }
+    $bits = str_split($bits, 4);
+    for($i = 0; $i < count($bits); $i++) {
+        $configCode .= $configTable[bindec($bits[$i])];
+    }
+    return validateConfig($configCode);
+}
+
+function decodeConfig($configCode) {
+    global $configTable;
+
+    $configCode = validateConfig($configCode);
+    $bits = "";
+    for($i = 0; $i < strlen($configCode); $i++) {
+        $bits .= sprintf("%04d", decbin((int)array_search($configCode[$i], $configTable, true)));
+    }
+    return $bits;
+}
+
+function validateConfig($configCode) {
+    global $configTable;
+
+    $validCode = "";
+    for($i = 0; $i < strlen($configCode); $i++) {
+        if(in_array($configCode[$i], $configTable, true))
+            $validCode .= $configCode[$i];
+    }
+    return $validCode;
+}
+
 ?>
