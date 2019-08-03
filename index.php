@@ -55,7 +55,7 @@
         </div>
         <div id="footer">
             <div id="version">
-                <a href="https://github.com/Fasguy/sb-ltr" target="_blank" rel="noreferrer">Version 1.1.1</a>
+                <a href="https://github.com/Fasguy/sb-ltr" target="_blank" rel="noreferrer">Version 1.1.2</a>
             </div>
             <div id="additional">
                 <a href="https://www.youtube.com/user/sethbling" target="_blank" rel="noreferrer">SethBling's YouTube Channel</a>

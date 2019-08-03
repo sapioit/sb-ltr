@@ -1,7 +1,7 @@
 <?php
 
 // #######################################
-// ## Minecraft Randomizer ##
+// ## Minecraft Loottable Randomizer    ##
 // #######################################
 // ## Created by: SethBling             ##
 // ## Ported to PHP by: Fasguy          ##
@@ -55,7 +55,11 @@ function Generate() {
     $datapack_desc;                     //Variable to store the description of the datapack
     $datapack_filename;                 //Variable to store the filename of the datapack
     
-    $randomLootTable = isset($_POST['randomLootTable']) ? $_POST['randomLootTable'] : array();  //If "randomLootTable" is set, then it assigns the selected objects to $randomLootTable
+	$randomLootTable = isset($_POST['randomLootTable']) ? $_POST['randomLootTable'] : array();  //If "randomLootTable" is set, then it assigns the selected objects to $randomLootTable
+	if(count($randomLootTable) === 0) {
+		echo '<meta http-equiv="refresh" content="0;url=index.php">';
+		exit();
+	}
     
     ini_set('max_execution_time', 0);   //Pretty much only used for debugging at home
 
