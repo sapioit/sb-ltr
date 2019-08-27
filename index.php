@@ -35,6 +35,16 @@
                             Randomize Gameplay:
                             <span class="state"></span>
                         </label>
+                        <label class="toggle">
+                            <input type="checkbox" name="randomLootTable[]" value="beds"/>
+                            Randomize Beds:
+                            <span class="state"></span>
+                        </label>
+                        <label class="toggle">
+                            <input type="checkbox" name="randomLootTable[]" value="shulkerboxes"/>
+                            Randomize Shulker Boxes:
+                            <span class="state"></span>
+                        </label>
                     </div>
                 </div>
             </form>
