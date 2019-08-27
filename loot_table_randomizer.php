@@ -6,7 +6,7 @@
 // ## Created by: SethBling             ##
 // ## Ported to PHP by: Fasguy          ##
 // #######################################
-// ## Version 1.2                       ##
+// ## Version 1.2.1                     ##
 // #######################################
 // ## External Sources:
 // ## PclZip created by Vincent (http://phpconcept.net/pclzip/)
@@ -21,26 +21,26 @@ require_once("lib/functions.php");      //External function file
 echo '
 <html>
 <head>
-<title>SethBling\'s Random Loot-Table Generator.</title>
+	<title>SethBling\'s Random Loot-Table Generator.</title>
+	<link rel="shortcut icon" href="style/favicon.png" type="image/png" />
+	<link rel="icon" href="style/favicon.png" type="image/png" />
+	<link rel="stylesheet" href="style/style.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="style/minecraft-webfont.css" />
 </head>
 <body>
-<link rel="shortcut icon" href="style/favicon.png" type="image/png" />
-<link rel="icon" href="style/favicon.png" type="image/png" />
-<link rel="stylesheet" href="style/style.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="style/minecraft-webfont.css" />
-<div id="content">
-<h1 id="title">Generating datapack...</h1>
-<h3 id="progress">Please wait...</h3>
-<noscript><h4>Progress can only be shown with JavaScript enabled.</h4></noscript>
-<p id="text">
-How to use:
-1. Let your loot table generate.
-2. Go into <a href="https://help.mojang.com/customer/portal/articles/1480874">your \'.minecraft\' directory</a>.
-3. Go into \'saves\' and then into the world\'s folder, where you want the drops to be randomized.
-4. Go into \'datapacks\' and place the generated zip file in this folder.
-5. Load the world in Minecraft and go nuts!
-</p>
-</div>
+	<div id="content">
+		<h1 id="title">Generating datapack...</h1>
+		<h3 id="progress">Please wait...</h3>
+		<noscript><h4>Progress can only be shown with JavaScript enabled.</h4></noscript>
+		<p id="text">
+		How to use:
+		1. Let your loot table generate.
+		2. Go into <a href="https://help.mojang.com/customer/portal/articles/1480874">your \'.minecraft\' directory</a>.
+		3. Go into \'saves\' and then into the world\'s folder, where you want the drops to be randomized.
+		4. Go into \'datapacks\' and place the generated zip file in this folder.
+		5. Load the world in Minecraft and go nuts!
+		</p>
+	</div>
 </body>
 </html>';
 
@@ -67,7 +67,7 @@ function Generate() {
 
     //tempnam should be used here, but apparently isn't supported by my webhoster :/
     while (true) {
-        $tempFile = "./tmp/" . uniqid('ltr') . '.tmp';  //Create a unique filename for the temporary file
+        $tempFile = "./tmp/" . uniqid('ltr'). $seed . '.tmp';  //Create a unique filename for the temporary file
         if (!file_exists($tempFile)) break;             //*
     }
 
